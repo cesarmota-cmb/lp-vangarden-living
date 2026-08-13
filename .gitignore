@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Arquivos temporários
+*.tmp
+Thumbs.db
+
+# Cloudflare Wrangler (cache do dev local)
+.wrangler/
+
+# Configuração local do Claude Code
+.claude/
+
+# ---------------------------------------------------------------
+# ATENÇÃO: este repositório é PÚBLICO.
+# O que está abaixo fica fora dele de propósito.
+# ---------------------------------------------------------------
+
+# Materiais brutos: ~89 MB de renders, plantas e o book em PDF.
+# Não entram em git — ficam no iCloud. Só a cópia otimizada
+# usada pelo site vive em site/assets/img/.
+/01. Materiais/
+/03. Entregas/
+
+# Documentos internos de trabalho: contêm pendências comerciais,
+# valores não confirmados e nomes de pessoas do time.
+/briefing.md
+/Identidade-visual+briefing
+/LEIA-ME.md

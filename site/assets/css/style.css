@@ -1,0 +1,468 @@
+/* =========================================================
+   VANGARDEN LIVING — Landing Page
+   Tokens conforme "Identidade-visual+briefing"
+   ========================================================= */
+
+:root{
+  /* Cores */
+  --vg-night:#191627;
+  --vg-night-lift:#252241;
+  --vg-champagne:#969180;
+  --vg-champagne-hi:#B3AE9B;
+  --vg-champagne-dim:#6E6A5D;
+  --vg-lavender:#76728F;
+  --vg-white:#fff;
+  --vg-paper:#FAFAF8;
+
+  --vg-card-bg:rgba(150,145,128,.08);
+  --vg-card-border:rgba(150,145,128,.24);
+
+  /* Tipografia — Gilroy quando licenciada; Poppins é o fallback aprovado */
+  --vg-font:'Gilroy','Poppins',ui-sans-serif,system-ui,sans-serif;
+
+  --vg-display-xl:clamp(3rem,5.6vw,5rem);
+  --vg-display:clamp(2.25rem,4.2vw,3.75rem);
+  --vg-display-sm:clamp(1.75rem,3vw,2.75rem);
+  --vg-h2:clamp(1.75rem,3vw,2.75rem);
+  --vg-h3:clamp(1.25rem,2vw,1.875rem);
+  --vg-body:clamp(1rem,1.3vw,1.1875rem);
+  --vg-legal:.6875rem;
+
+  --vg-lh-display:1.08;
+  --vg-lh-body:1.55;
+  --vg-ls-display:.02em;
+
+  /* Layout */
+  --vg-radius-card:18px;
+  --vg-gutter:6.8%;
+  --vg-square:clamp(44px,5.8vw,78px);
+  --vg-max:1360px;
+  --hdr-h:88px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:var(--hdr-h)}
+body{
+  margin:0;background:var(--vg-night);color:var(--vg-white);
+  font-family:var(--vg-font);font-weight:300;font-size:var(--vg-body);
+  line-height:var(--vg-lh-body);-webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img,video,iframe{max-width:100%;display:block}
+img{height:auto}
+a{color:inherit}
+h1,h2,h3,h4{margin:0;font-weight:700;line-height:var(--vg-lh-display)}
+p{margin:0 0 1.1em}
+ul{margin:0;padding:0;list-style:none}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--vg-champagne);color:var(--vg-night);padding:.75rem 1.25rem;z-index:999}
+.skip:focus{left:0}
+
+.wrap{max-width:var(--vg-max);margin-inline:auto;padding-inline:clamp(1.25rem,var(--vg-gutter),5rem)}
+.center{text-align:center}
+.dim{color:var(--vg-champagne)}
+
+/* ---------- Tipografia de marca ---------- */
+/* Regra do guia: Thin só em tamanhos grandes; corpo sempre Light. */
+.display{
+  font-weight:100;font-size:var(--vg-display);
+  letter-spacing:var(--vg-ls-display);line-height:var(--vg-lh-display);
+  color:var(--vg-champagne);text-transform:none;margin-bottom:.6em;
+}
+.display--sm{font-size:var(--vg-display-sm);font-weight:200}
+.sub{font-weight:500;font-size:var(--vg-h3);color:var(--vg-white);margin:0 0 1rem}
+.sub--big{font-weight:700;font-size:var(--vg-h2);color:var(--vg-champagne);margin-bottom:.8rem}
+.lead{font-size:clamp(1.05rem,1.5vw,1.25rem);max-width:46ch}
+.hi{color:var(--vg-champagne);font-weight:700}
+strong{font-weight:700;color:var(--vg-champagne)}
+
+.eyebrow{
+  font-size:.75rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--vg-champagne);font-weight:400;margin-bottom:1.2rem;
+}
+.pill{
+  display:inline-block;border:1px solid var(--vg-card-border);border-radius:999px;
+  padding:.4rem 1rem;font-size:.78rem;font-weight:500;letter-spacing:.08em;
+  color:var(--vg-champagne-hi);margin:0 0 1.4rem;
+}
+
+/* ---------- Botões ---------- */
+.btn{
+  display:inline-block;border:1px solid var(--vg-champagne);background:none;
+  color:var(--vg-champagne);font-family:inherit;font-size:.78rem;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;padding:1.05rem 2rem;
+  text-decoration:none;cursor:pointer;border-radius:2px;
+  transition:background .3s,color .3s;
+}
+.btn:hover,.btn:focus-visible{background:var(--vg-champagne);color:var(--vg-night)}
+.btn--ghost{padding:.8rem 1.4rem;font-size:.7rem;width:100%}
+.btn--full{width:100%;padding:1.15rem}
+
+/* ---------- Header ---------- */
+/* Fundo roxo sólido desde o topo — sem transição de transparente para sólido. */
+.hdr{
+  position:fixed;inset:0 0 auto;z-index:100;
+  background:rgba(25,22,39,.94);backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 var(--vg-card-border);
+}
+.hdr__in{
+  max-width:var(--vg-max);margin-inline:auto;height:var(--hdr-h);
+  padding-inline:clamp(1.25rem,var(--vg-gutter),5rem);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+}
+.hdr__logo img{width:auto;height:52px}
+.nav{display:flex;align-items:center;gap:1.9rem}
+.nav a{
+  text-decoration:none;font-size:.8rem;font-weight:400;letter-spacing:.08em;
+  color:var(--vg-white);opacity:.85;transition:opacity .25s,color .25s;
+}
+.nav a:hover{opacity:1;color:var(--vg-champagne-hi)}
+.nav__cta{border:1px solid var(--vg-champagne);padding:.6rem 1.1rem;color:var(--vg-champagne)!important;opacity:1!important;border-radius:2px}
+.nav__cta:hover{background:var(--vg-champagne);color:var(--vg-night)!important}
+
+.burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:.5rem}
+.burger span{width:26px;height:1.5px;background:var(--vg-champagne);transition:.3s}
+.burger[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+
+/* ---------- Composição de duas colunas (assinatura do book) ---------- */
+.hero,.split{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.hero{min-height:100svh;align-items:stretch}
+.hero__panel,.split__panel{
+  background:var(--vg-night);display:flex;flex-direction:column;justify-content:center;
+  padding:clamp(4rem,9vw,7.5rem) clamp(1.5rem,var(--vg-gutter),5.5rem);
+}
+/* Padding inferior maior que o superior: com justify-content:center, isso puxa
+   o bloco da headline para cima sem tirar ele do eixo vertical. */
+.hero__panel{
+  padding-top:calc(var(--hdr-h) + 1.5rem);
+  padding-bottom:clamp(6rem,13vw,11rem);
+}
+.hero__copy{max-width:34rem;margin-left:auto}
+.split__panel>*{max-width:46rem}
+.hero__media,.split__media{position:relative;overflow:hidden;background:var(--vg-night-lift)}
+.hero__media img,.split__media img{width:100%;height:100%;object-fit:cover}
+.split__media--stack{display:grid;grid-template-rows:1fr 1fr;gap:0}
+.split--rev .split__panel{order:2}
+.split--rev .split__media{order:1}
+.split--flush{margin-block:0}
+
+.hero__acts{display:flex;align-items:center;gap:1.6rem;flex-wrap:wrap;margin-top:.8rem}
+
+/* Quadrado champagne na costura — dispositivo gráfico (a) do guia */
+.seam{
+  position:absolute;top:50%;left:50%;
+  width:var(--vg-square);height:var(--vg-square);
+  background:var(--vg-champagne);transform:translate(-50%,-50%);
+  z-index:5;pointer-events:none;
+}
+
+/* ---------- Faixa full-bleed (páginas de respiro do book) ---------- */
+.band{width:100%;line-height:0}
+.band img{width:100%;height:clamp(240px,42vw,560px);object-fit:cover}
+
+/* ---------- Números ---------- */
+.numeros{padding:clamp(4.5rem,9vw,8rem) 0}
+.counters{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;
+  margin:0 0 clamp(3rem,6vw,5rem);text-align:center;
+}
+.counter__n{
+  display:block;font-weight:100;font-size:var(--vg-display-xl);
+  line-height:1;color:var(--vg-champagne);font-variant-numeric:tabular-nums;
+}
+.counter__l{display:block;margin-top:.7rem;font-size:.85rem;color:var(--vg-white);opacity:.75}
+
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-bottom:clamp(3rem,6vw,4.5rem)}
+/* Card de contorno — dispositivo gráfico (c) do guia: nunca preenchido */
+.card{
+  border:1px solid var(--vg-card-border);border-radius:var(--vg-radius-card);
+  padding:2rem 1.75rem;background:none;
+}
+.card h3{font-size:var(--vg-h3);font-weight:500;color:var(--vg-champagne);margin-bottom:.6rem}
+.card p{margin:0;font-size:.95rem;opacity:.85}
+
+.ficha{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:0;margin:0;
+  border-top:1px solid var(--vg-card-border);
+}
+.ficha>div{
+  display:flex;gap:1.5rem;padding:1.1rem .25rem;
+  border-bottom:1px solid var(--vg-card-border);
+}
+.ficha dt{
+  flex:0 0 9.5rem;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--vg-champagne);font-weight:500;padding-top:.2rem;
+}
+.ficha dd{margin:0;font-size:.95rem;opacity:.9}
+
+/* ---------- Listas com ícone ---------- */
+.feat{--ico:2.6rem;--feat-lh:1.55;display:grid;gap:1.15rem;margin-top:1.5rem}
+.feat--tight{--ico:2.2rem;gap:.85rem}
+.feat li{display:flex;gap:1.1rem;align-items:flex-start;font-size:.98rem;line-height:var(--feat-lh)}
+.ico{
+  flex:0 0 var(--ico);height:var(--ico);display:grid;place-items:center;
+  border:1px solid var(--vg-card-border);border-radius:50%;
+  color:var(--vg-champagne);font-size:1rem;line-height:1;
+}
+.feat--tight .ico{font-size:.9rem}
+/* Alinha o centro da PRIMEIRA linha de texto com o centro do ícone.
+   Empurra o texto por metade da diferença entre a altura do ícone e a da linha —
+   assim item de uma linha fica centrado e item de duas linhas mantém o ícone
+   na primeira, sem descolar. */
+.feat li > div{padding-top:calc((var(--ico) - 1em * var(--feat-lh)) / 2)}
+
+/* ---------- Chips ---------- */
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.2rem}
+.chips li{
+  border:1px solid var(--vg-card-border);border-radius:999px;
+  padding:.42rem .9rem;font-size:.8rem;color:var(--vg-white);opacity:.9;
+}
+.addr{color:var(--vg-champagne);font-weight:500;font-size:1rem;border-left:2px solid var(--vg-champagne);padding-left:1rem}
+
+/* ---------- Mapa ---------- */
+.map{position:relative;height:100%;min-height:280px;border-top:1px solid var(--vg-card-border)}
+/* Sem filtro de inversão: alterar o logo/atribuição do Google fere os Termos do Maps.
+   Só uma dessaturação leve, que não mexe na identificação da marca deles. */
+.map iframe{width:100%;height:100%;border:0;filter:saturate(.8) brightness(.95)}
+
+/* ---------- Vídeo ---------- */
+.video{padding:clamp(4.5rem,9vw,8rem) 0}
+.player{position:relative;margin-top:2.5rem;aspect-ratio:16/9;overflow:hidden;background:var(--vg-night-lift);cursor:pointer}
+.player img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease,opacity .4s}
+.player:hover img{transform:scale(1.03)}
+.player__play{
+  position:absolute;inset:50% auto auto 50%;transform:translate(-50%,-50%);
+  width:88px;height:88px;border-radius:50%;cursor:pointer;
+  border:1px solid var(--vg-champagne);background:rgba(25,22,39,.55);
+  color:var(--vg-champagne);display:grid;place-items:center;
+  transition:background .3s,color .3s;
+}
+.player:hover .player__play{background:var(--vg-champagne);color:var(--vg-night)}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+
+/* ---------- Lazer ---------- */
+.lazer{padding-top:clamp(4.5rem,9vw,8rem)}
+.lazer .wrap>.display{margin-bottom:2.5rem}
+.lazer .wrap>.display.center+.dim{margin-bottom:3rem}
+/* O bloco "Design sofisticado" vem logo depois de uma faixa full-bleed.
+   Sem respiro no topo, o título encosta na imagem. */
+.lazer .band + .wrap{padding-top:clamp(4.5rem,9vw,8rem)}
+.grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:1rem;margin:3rem 0 clamp(4.5rem,9vw,8rem);
+}
+.grid figure{margin:0;position:relative;overflow:hidden;background:var(--vg-night-lift)}
+.grid img{width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform 1s ease}
+.grid figure:hover img{transform:scale(1.05)}
+.grid figcaption{
+  position:absolute;inset:auto 0 0;padding:1.4rem 1.1rem .95rem;
+  background:linear-gradient(to top,rgba(25,22,39,.92),transparent);
+  font-size:.85rem;font-weight:500;letter-spacing:.06em;color:var(--vg-white);
+}
+
+/* ---------- Plantas (única seção clara) ---------- */
+.plantas{background:var(--vg-paper);color:var(--vg-night);padding:clamp(4.5rem,9vw,8rem) 0}
+.plantas .display{color:var(--vg-night)}
+.plantas .amb{font-size:.85rem;color:var(--vg-champagne-dim);letter-spacing:.04em;margin-bottom:3rem}
+.plantas__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.25rem}
+.planta{
+  position:relative;
+  border:1px solid rgba(25,22,39,.16);border-radius:var(--vg-radius-card);
+  padding:1.5rem;display:flex;flex-direction:column;background:none;
+}
+
+/* Tag de disponibilidade — canto superior direito, sobre a área branca da planta.
+   "Últimas unidades" chapada em champagne (bloco pequeno, permitido pelo manual);
+   "Esgotado" apenas em contorno, para pesar menos que a tipologia disponível. */
+.tag{
+  position:absolute;top:1.35rem;right:1.35rem;z-index:2;
+  padding:.34rem .78rem;border-radius:999px;
+  font-size:.66rem;font-weight:500;letter-spacing:.13em;text-transform:uppercase;
+  white-space:nowrap;
+}
+.tag--ultimas{background:var(--vg-champagne);color:var(--vg-night)}
+.tag--esgotado{
+  background:rgba(25,22,39,.04);
+  border:1px solid rgba(25,22,39,.28);
+  color:var(--vg-champagne-dim);
+}
+
+/* Tipologia esgotada continua visível e clicável — só perde protagonismo. */
+.planta--esgotado .planta__img img{filter:grayscale(.45);opacity:.6}
+.planta--esgotado .planta__area,
+.planta--esgotado h3{color:var(--vg-champagne-dim)}
+.planta--esgotado ul{opacity:.72}
+.planta--esgotado .btn{border-color:rgba(25,22,39,.3);color:var(--vg-champagne-dim)}
+.planta--esgotado .btn:hover{background:var(--vg-champagne-dim);color:var(--vg-paper)}
+.planta__img{background:#fff;border-radius:8px;overflow:hidden;margin-bottom:1.25rem}
+.planta__img img{width:100%;aspect-ratio:4/3;object-fit:contain}
+.planta h3{font-size:.85rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--vg-champagne-dim)}
+.planta__area{font-weight:100;font-size:clamp(2.25rem,3.4vw,3rem);line-height:1;color:var(--vg-night);margin:.35rem 0 1.1rem}
+.planta__area span{font-size:.42em;vertical-align:super;font-weight:300}
+.planta ul{flex:1;margin-bottom:1.4rem;font-size:.9rem}
+.planta li{padding:.3rem 0;border-bottom:1px solid rgba(25,22,39,.07)}
+.planta li strong{color:var(--vg-champagne-dim)}
+/* Bloco de oferta no rodapé do card — fica logo acima do botão para que
+   o preço seja a última informação lida antes do clique. */
+.planta__oferta{
+  margin:0 0 1.1rem;padding:.85rem 1rem;text-align:center;
+  border:1px solid var(--vg-champagne);border-radius:10px;
+  background:rgba(150,145,128,.12);
+}
+.planta__oferta span{
+  display:block;margin-bottom:.3rem;
+  font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--vg-champagne-dim);font-weight:500;
+}
+.planta__oferta strong{
+  display:block;color:var(--vg-night);
+  font-size:1.2rem;font-weight:500;letter-spacing:.01em;
+}
+.plantas .btn{border-color:var(--vg-night);color:var(--vg-night)}
+.plantas .btn:hover{background:var(--vg-night);color:var(--vg-paper)}
+
+.plantas__extra{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:.6rem;margin-top:2.5rem}
+.plantas__extra p{margin:0 .5rem 0 0;font-size:.85rem;color:var(--vg-champagne-dim)}
+.chip-btn{
+  border:1px solid rgba(25,22,39,.25);background:none;border-radius:999px;
+  padding:.5rem 1.1rem;font-family:inherit;font-size:.82rem;color:var(--vg-night);
+  cursor:pointer;transition:background .25s,color .25s;
+}
+.chip-btn:hover{background:var(--vg-night);color:var(--vg-paper)}
+
+/* ---------- Contato ---------- */
+.contato{padding:clamp(4.5rem,9vw,8rem) 0;background:var(--vg-night-lift)}
+.contato__in{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2.5rem,6vw,5rem);align-items:start}
+
+.form{
+  border:1px solid var(--vg-card-border);border-radius:var(--vg-radius-card);
+  padding:clamp(1.75rem,3vw,2.5rem);background:rgba(25,22,39,.45);
+}
+.field{margin-bottom:1.15rem}
+.field label{display:block;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--vg-champagne);margin-bottom:.45rem}
+.field input,.field select{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--vg-champagne-dim);
+  color:var(--vg-white);font-family:inherit;font-size:1rem;font-weight:300;
+  padding:.65rem .1rem;border-radius:0;transition:border-color .25s;
+}
+.field select{appearance:none;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--vg-champagne) 50%),linear-gradient(135deg,var(--vg-champagne) 50%,transparent 50%);
+  background-position:calc(100% - 14px) calc(50% + 2px),calc(100% - 9px) calc(50% + 2px);
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat;
+}
+.field select option{background:var(--vg-night);color:var(--vg-white)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--vg-champagne)}
+.field input.err,.field select.err{border-color:#c76a5a}
+.form__micro{font-size:.75rem;color:var(--vg-champagne-dim);margin:1rem 0 0;line-height:1.5}
+.form__msg{margin:.9rem 0 0;font-size:.9rem;min-height:1.2em}
+.form__msg.ok{color:var(--vg-champagne-hi)}
+.form__msg.bad{color:#e09a8c}
+
+/* ---------- Rodapé ---------- */
+.ft{padding:clamp(4rem,7vw,6rem) 0 8rem;border-top:1px solid var(--vg-card-border)}
+.ft__brand{text-align:center;margin-bottom:clamp(3rem,6vw,4.5rem)}
+.ft__brand img{width:auto;height:96px;margin:0 auto 1.75rem}
+.ft__sig{color:var(--vg-champagne);margin-bottom:.5rem}
+.ft__exp{font-size:var(--vg-h3);font-weight:300;color:var(--vg-white)}
+.ft__exp strong{font-weight:700}
+.ft__cols{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;padding-bottom:2.5rem;border-bottom:1px solid var(--vg-card-border)}
+.ft__cols h4{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--vg-champagne);margin-bottom:.7rem;font-weight:500}
+.ft__cols p{font-size:.88rem;opacity:.85;margin:0;line-height:1.7}
+.ft__cols a{text-decoration:none;border-bottom:1px solid transparent}
+.ft__cols a:hover{border-color:var(--vg-champagne)}
+.legal{font-size:var(--vg-legal);line-height:1.4;color:var(--vg-champagne-dim);margin:2rem 0 0;max-width:82ch}
+
+/* ---------- CTA fixo mobile ---------- */
+.sticky{display:none;position:fixed;inset:auto 0 0;z-index:90;
+  background:rgba(25,22,39,.97);border-top:1px solid var(--vg-card-border);
+  padding:.7rem;gap:.6rem;
+}
+.sticky a{
+  flex:1;text-align:center;text-decoration:none;padding:.95rem .5rem;
+  font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;font-weight:500;border-radius:2px;
+}
+.sticky__cta{background:var(--vg-champagne);color:var(--vg-night)}
+
+/* ---------- Lightbox ---------- */
+.lb{position:fixed;inset:0;z-index:200;background:rgba(25,22,39,.97);display:grid;place-items:center;padding:4rem 1.5rem}
+.lb[hidden]{display:none}
+.lb figure{margin:0;max-width:min(1100px,92vw);text-align:center}
+.lb img{max-height:78vh;width:auto;margin-inline:auto;background:#fff;border-radius:6px}
+.lb figcaption{margin-top:1.2rem;color:var(--vg-champagne);font-size:.9rem;letter-spacing:.1em}
+.lb__x{position:absolute;top:1.5rem;right:1.75rem;background:none;border:0;color:var(--vg-champagne);font-size:2.6rem;line-height:1;cursor:pointer}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* =========================================================
+   RESPONSIVO
+   ========================================================= */
+@media (max-width:1024px){
+  .counters{grid-template-columns:repeat(2,1fr);gap:2.5rem 1rem}
+  .trio{grid-template-columns:1fr}
+  .ft__cols{grid-template-columns:repeat(2,1fr)}
+  .ficha{grid-template-columns:1fr}
+}
+
+@media (max-width:860px){
+  :root{--hdr-h:70px}
+  .burger{display:flex}
+  .nav{
+    position:fixed;inset:var(--hdr-h) 0 auto;flex-direction:column;align-items:stretch;
+    gap:0;background:rgba(25,22,39,.985);backdrop-filter:blur(12px);
+    padding:1rem 1.5rem 2rem;border-bottom:1px solid var(--vg-card-border);
+    transform:translateY(-120%);transition:transform .4s ease;
+  }
+  .nav--open{transform:none}
+  .nav a{padding:1.05rem 0;border-bottom:1px solid var(--vg-card-border);font-size:.95rem}
+  .nav__cta{text-align:center;margin-top:1.2rem;border-bottom:1px solid var(--vg-champagne)}
+
+  /* Duas colunas viram empilhamento: mídia no topo, painel escuro embaixo */
+  .hero,.split{grid-template-columns:1fr}
+  .hero{min-height:0}
+  .hero__media{order:-1;height:56svh}
+  .hero__panel{padding-top:2.5rem;padding-bottom:3.5rem}
+  .hero__copy{margin-left:0}
+  .split__media{height:52vw;min-height:260px}
+  .split--rev .split__panel,.split--rev .split__media{order:0}
+  .split__media--stack{grid-template-rows:1fr;height:auto}
+  .split__media--stack img{height:52vw;min-height:240px}
+  .map{min-height:320px}
+
+  /* Sem duas colunas não existe costura vertical. O quadrado passa a marcar a borda
+     superior da imagem — assim ele acerta a emenda em qualquer ordem de empilhamento,
+     em vez de calcular alturas e cair em cima do texto. */
+  .seam{display:none}
+  .hero__media,.split__media{overflow:visible}
+  .hero__media::before,.split__media::before{
+    content:'';position:absolute;z-index:5;
+    top:calc(var(--vg-square) / -2);
+    left:clamp(1.5rem,var(--vg-gutter),5rem);
+    width:var(--vg-square);height:var(--vg-square);
+    background:var(--vg-champagne);
+  }
+
+  .contato__in{grid-template-columns:1fr}
+  .sticky{display:flex}
+  .ft{padding-bottom:7rem}
+  .hero__acts{flex-direction:column;align-items:flex-start;gap:1.2rem}
+  .btn{width:100%;text-align:center}
+}
+
+@media (max-width:560px){
+  .counters{grid-template-columns:1fr 1fr;gap:2rem .75rem}
+  .ft__cols{grid-template-columns:1fr;gap:1.75rem}
+  .ficha dt{flex-basis:auto}
+  .ficha>div{flex-direction:column;gap:.35rem}
+  .grid{grid-template-columns:1fr}
+  .player__play{width:66px;height:66px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}

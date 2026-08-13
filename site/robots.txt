@@ -1,0 +1,6 @@
+# Enquanto a LP estiver em homologação no domínio *.pages.dev,
+# bloqueia indexação para não competir com o site oficial da LBraga
+# nem expor "últimas unidades" antes da aprovação comercial.
+# TROCAR ANTES DE PUBLICAR NO DOMÍNIO DEFINITIVO.
+User-agent: *
+Disallow: /
