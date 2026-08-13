@@ -546,6 +546,13 @@
             </select>
           </div>
 
+          <!-- Honeypot antispam: escondido para humanos, ignorado por leitores de tela.
+                 Se vier preenchido, o backend descarta o envio. -->
+            <div class="hp" aria-hidden="true">
+              <label for="website">Não preencha este campo</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
           <button type="submit" class="btn btn--full" id="submit">Quero receber as informações</button>
           <p class="form__micro">Nossos consultores entram em contato em breve. Seus dados não são compartilhados com
             terceiros.</p>

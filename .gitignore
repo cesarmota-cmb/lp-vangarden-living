@@ -28,3 +28,6 @@ Thumbs.db
 /briefing.md
 /Identidade-visual+briefing
 /LEIA-ME.md
+
+# Segredos locais do Wrangler — nunca versionar
+.dev.vars

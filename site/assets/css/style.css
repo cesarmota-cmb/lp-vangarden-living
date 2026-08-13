@@ -355,6 +355,9 @@ strong{font-weight:700;color:var(--vg-champagne)}
 .field select option{background:var(--vg-night);color:var(--vg-white)}
 .field input:focus,.field select:focus{outline:none;border-color:var(--vg-champagne)}
 .field input.err,.field select.err{border-color:#c76a5a}
+/* Honeypot: tirado do fluxo visual sem display:none nem visibility:hidden,
+   que alguns bots detectam e passam a ignorar o campo. */
+.hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .form__micro{font-size:.75rem;color:var(--vg-champagne-dim);margin:1rem 0 0;line-height:1.5}
 .form__msg{margin:.9rem 0 0;font-size:.9rem;min-height:1.2em}
 .form__msg.ok{color:var(--vg-champagne-hi)}

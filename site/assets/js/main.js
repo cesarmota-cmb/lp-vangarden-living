@@ -135,6 +135,7 @@
       tipologia: $('#tipo').value,
       entrada: $('#entrada').value,
       origem: 'LP Vangarden Living',
+      website: $('#website').value, // honeypot: humano deixa vazio
       pagina: location.href,
       // UTMs repassadas ao CRM
       utm: (function () {

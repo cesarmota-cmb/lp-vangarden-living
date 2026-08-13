@@ -19,8 +19,8 @@ HTML, CSS e JavaScript puros. Sem build, sem framework, sem dependência de runt
 │       ├── js/main.js
 │       ├── img/           # imagens já otimizadas para web
 │       └── fonts/
-└── functions/             # Cloudflare Pages Functions
-    └── api/               # POST /api/lead → CRM (pendente)
+└── functions/
+    └── api/lead.js        # POST /api/lead → cria o lead no Kommo
 ```
 
 `functions/` fica **fora** de `site/`, na raiz — é onde o Pages procura as Functions.
@@ -33,6 +33,27 @@ python3 -m http.server 8080
 ```
 
 Abra <http://127.0.0.1:8080>.
+
+## Variáveis de ambiente
+
+Configure em **Cloudflare Pages → Settings → Environment variables**, para Production e Preview:
+
+| Variável | O que é | Onde achar no Kommo |
+|---|---|---|
+| `KOMMO_SUBDOMAIN` | subdomínio da conta, sem `.kommo.com` | está na própria URL: `SUBDOMINIO.kommo.com` |
+| `KOMMO_TOKEN` | token de longa duração — **marcar como Secret** | Configurações → Integrações → criar integração privada → aba Chaves |
+| `KOMMO_PIPELINE_ID` | id numérico do funil | abra o funil; o id aparece na URL |
+| `KOMMO_STATUS_ID` | id numérico da etapa de entrada | `GET /api/v4/leads/pipelines/{pipeline_id}` lista as etapas |
+| `KOMMO_TAG` | opcional; padrão `LP Vangarden Living` | — |
+
+Para rodar local, crie um `.dev.vars` na raiz com as mesmas chaves. Ele está no `.gitignore`
+e não deve ser versionado nunca.
+
+```bash
+npx wrangler pages dev site
+```
+
+O token só existe no servidor: ele nunca é enviado ao navegador.
 
 ## Deploy
 
@@ -76,7 +97,8 @@ skip link, e contraste verificado nas tags e nos textos sobre champagne.
 
 ## Pendências
 
-- [ ] `functions/api/lead.js` — integração com o Kommo. **Sem ele, todo cadastro se perde:**
+- [ ] Credenciais do Kommo nas variáveis de ambiente. O endpoint já existe e está testado,
+      mas **enquanto as variáveis não forem preenchidas ele responde 503 e o cadastro se perde** —
       o formulário é hoje o único caminho de conversão da página.
 - [ ] Faixas reais de valor de entrada no formulário (as atuais são placeholder)
 - [ ] Licença webfont da Gilroy
