@@ -155,14 +155,27 @@
     return o;
   }
 
+  /** Diretório da LP: tudo que estiver sob ele é a própria página. */
+  function baseDaLp() {
+    return location.pathname.replace(/[^/]*$/, '');
+  }
+
   /** Deduz origem e mídia a partir do referrer, quando não há UTM. */
   function peloReferrer() {
     var ref = document.referrer || '';
     if (!ref) return { utm_source: 'direto', utm_medium: 'none' };
 
-    var host;
-    try { host = new URL(ref).hostname.replace(/^www\./, ''); } catch (e) { return null; }
-    if (host === location.hostname) return null; // navegação interna: não é toque novo
+    var url, host;
+    try {
+      url = new URL(ref);
+      host = url.hostname.replace(/^www\./, '');
+    } catch (e) { return null; }
+
+    // Navegação interna é só o que vem de dentro da própria LP — compara o
+    // caminho, não o host. A LP é servida em subpasta do domínio principal,
+    // então comparar host trataria quem chega do site institucional como
+    // navegação interna e jogaria esse tráfego em "direto".
+    if (url.hostname === location.hostname && url.pathname.indexOf(baseDaLp()) === 0) return null;
 
     var buscadores = /^(google|bing|duckduckgo|yahoo|ecosia|brave)\./;
     var sociais = {
@@ -286,10 +299,11 @@
     // Honeypot: humano deixa vazio. A checagem era feita na Function; sem
     // backend ela precisa acontecer aqui, antes de tocar no webhook.
     // Mostra sucesso para o bot não descobrir que foi barrado.
+    // Precisa mostrar exatamente o mesmo card do envio bem-sucedido: se a
+    // resposta ao bot for diferente da resposta ao humano, a armadilha fica
+    // detectável e perde a serventia.
     if ($('#website').value.trim()) {
-      form.reset();
-      msg.className = 'form__msg ok';
-      msg.textContent = 'Recebemos seus dados. Um consultor entra em contato em breve.';
+      mostrarObrigado();
       return;
     }
 
@@ -323,9 +337,7 @@
       .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json().catch(function () { return {}; }); })
       .then(function () {
         // O formulário sai de cena e o card de agradecimento ocupa o lugar.
-        form.hidden = true;
-        done.hidden = false;
-        done.focus();
+        mostrarObrigado();
         // Eventos de conversão
         if (window.fbq) window.fbq('track', 'Lead');
         if (window.gtag) window.gtag('event', 'generate_lead', { value: 1 });

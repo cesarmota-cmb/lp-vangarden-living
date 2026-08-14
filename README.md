@@ -115,6 +115,32 @@ A LP guarda a origem em `localStorage` por **90 dias**, com dois toques:
 Ler a UTM só na hora do envio perde atribuição de quem recarrega, volta depois ou
 chega sem parâmetro. Navegação sem parâmetro **não** sobrescreve o último toque.
 
+### ⚠️ Navegação interna é por caminho, não por host
+
+A LP roda em **subpasta do domínio principal** (`lbragaconstrutora.com.br/lancamentos/vangarden/`),
+e não em domínio próprio. Isso muda o significado de "navegação interna".
+
+A regra que decide se um referrer conta como toque novo compara o **caminho**:
+
+```js
+if (url.hostname === location.hostname && url.pathname.indexOf(baseDaLp()) === 0) return null;
+```
+
+Comparar só o hostname — que é o reflexo natural quando a LP tem domínio próprio —
+trata **quem chega do site institucional da LBraga como navegação interna**, porque o
+host é o mesmo. O efeito é silencioso e caro: esse tráfego entra como `direto / none`,
+nada é gravado em `localStorage`, e os campos de primeiro toque chegam vazios ao webhook.
+
+Ao mover esta LP para outro endereço, revisar esta função. Se um dia ela voltar a ter
+domínio próprio, a comparação por caminho continua correta — o inverso não é verdade.
+
+### ⚠️ A resposta ao honeypot tem que ser idêntica à do sucesso
+
+O honeypot (`#website`) e o envio bem-sucedido chamam **a mesma** `mostrarObrigado()`.
+Isso não é estilo: se o bot receber uma tela diferente da do humano, ele descobre que
+foi barrado e a armadilha perde a serventia. Ao mexer no fluxo de sucesso, mexer nos
+dois caminhos junto — ou, de preferência, seguir chamando a mesma função.
+
 Quando não há UTM, a origem é deduzida:
 
 | Situação | Resultado |
@@ -125,6 +151,8 @@ Quando não há UTM, a origem é deduzida:
 | Veio de busca (google, bing, duckduckgo…) | `google / organico` |
 | Veio de rede social | ex.: `instagram / social` |
 | Veio de outro site | `dominio.com / referral` |
+| **Veio do site institucional da LBraga** | `lbragaconstrutora.com.br / referral` |
+| Navegação dentro da própria LP | não conta como toque novo |
 | Sem referrer | `direto / none` |
 
 ### Campos enviados ao webhook
