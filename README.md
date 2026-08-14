@@ -76,6 +76,28 @@ O `site/_headers` é formato Cloudflare Pages e **não tem efeito no nginx**. O 
 dos assets, o `X-Content-Type-Options`, o `Referrer-Policy` e o `X-Frame-Options`
 que estavam ali precisam ser reescritos na config do nginx, se forem desejados.
 
+### ⚠️ Cache busting: subir o `?v=` ao alterar CSS ou JS
+
+O domínio está atrás da Cloudflare, que guarda `.css` e `.js` na borda por
+**4 horas** (`cache-control: max-age=14400`, verificado em produção). Como o
+`_headers` não vale fora do Pages, não há como encurtar isso pelo repositório.
+
+Por isso o `index.html` referencia os dois assets com versão:
+
+```html
+<link rel="stylesheet" href="assets/css/style.css?v=1">
+<script src="assets/js/main.js?v=1" defer></script>
+```
+
+**Toda alteração em `style.css` ou `main.js` precisa subir esse número**, nos dois
+lugares ou só no arquivo alterado. Sem isso, o deploy sobe mas quem já visitou
+continua recebendo a versão antiga por até 4 horas — e o problema é silencioso:
+o `scp` termina sem erro e a página parece publicada.
+
+As outras LPs da LBraga seguem a mesma convenção (`?v=2` na Amoreiras,
+`?v=20260120h` no Plaza). A LP do Ópera é a exceção: por ser build do Vite, o
+hash no nome do arquivo já resolve o cache sozinho.
+
 ---
 
 ## Decisões de implementação
