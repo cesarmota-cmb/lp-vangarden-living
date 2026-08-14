@@ -358,6 +358,25 @@ strong{font-weight:700;color:var(--vg-champagne)}
 /* Honeypot: tirado do fluxo visual sem display:none nem visibility:hidden,
    que alguns bots detectam e passam a ignorar o campo. */
 .hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+
+/* Card que ocupa o lugar do formulário depois do envio. */
+.form-done{
+  border:1px solid var(--vg-champagne);border-radius:var(--vg-radius-card);
+  background:rgba(150,145,128,.1);
+  padding:clamp(2.5rem,5vw,3.75rem) clamp(1.75rem,3vw,2.5rem);
+  text-align:center;
+}
+.form-done[hidden]{display:none}
+.form-done:focus{outline:none}
+.form-done__ico{
+  display:grid;place-items:center;width:3.5rem;height:3.5rem;margin:0 auto 1.5rem;
+  border:1px solid var(--vg-champagne);border-radius:50%;color:var(--vg-champagne);
+}
+.form-done h3{
+  font-weight:100;font-size:var(--vg-display-sm);color:var(--vg-champagne);
+  letter-spacing:var(--vg-ls-display);margin-bottom:.75rem;
+}
+.form-done p{margin:0;color:var(--vg-white);opacity:.85;max-width:32ch;margin-inline:auto}
 .form__micro{font-size:.75rem;color:var(--vg-champagne-dim);margin:1rem 0 0;line-height:1.5}
 .form__msg{margin:.9rem 0 0;font-size:.9rem;min-height:1.2em}
 .form__msg.ok{color:var(--vg-champagne-hi)}

@@ -105,6 +105,65 @@ skip link, e contraste verificado nas tags e nos textos sobre champagne.
 
 ---
 
+## Rastreamento de origem
+
+A LP guarda a origem em `localStorage` por **90 dias**, com dois toques:
+
+- **Primeiro toque** — como a pessoa descobriu o empreendimento
+- **Último toque** — o que a trouxe de volta na hora de converter
+
+Ler a UTM só na hora do envio perde atribuição de quem recarrega, volta depois ou
+chega sem parâmetro. Navegação sem parâmetro **não** sobrescreve o último toque.
+
+Quando não há UTM, a origem é deduzida:
+
+| Situação | Resultado |
+|---|---|
+| `?gclid=` (autotagging do Google Ads) | `google / cpc` |
+| `?fbclid=` | `facebook` ou `instagram` / `social` |
+| `?msclkid=` / `?ttclid=` | `bing` / `tiktok` — `cpc` |
+| Veio de busca (google, bing, duckduckgo…) | `google / organico` |
+| Veio de rede social | ex.: `instagram / social` |
+| Veio de outro site | `dominio.com / referral` |
+| Sem referrer | `direto / none` |
+
+### Campos enviados ao webhook
+
+Além dos que já existiam, o payload passou a incluir:
+
+| Campo | Conteúdo |
+|---|---|
+| `origem_detectada` | rótulo pronto para relatório, ex.: `meta / cpc` |
+| `primeiro_toque_source` · `_medium` · `_campaign` | atribuição de primeiro toque |
+| `primeiro_toque_em` | data ISO do primeiro contato |
+| `landing_page` | primeira página acessada |
+| `wbraid` · `gbraid` · `ttclid` · `msclkid` | click ids que faltavam |
+
+Nada do contrato anterior mudou: o último toque continua achatado na raiz **e**
+aninhado em `utm`, com os mesmos nomes.
+
+### Como montar os links de campanha
+
+Use sempre minúsculas e hífen, nunca espaço ou acento — UTM diferencia
+maiúsculas, e `Meta` vira uma origem separada de `meta` no relatório.
+
+```
+https://SEUDOMINIO/vangarden/?utm_source=meta&utm_medium=cpc&utm_campaign=lancamento-agosto&utm_content=carrossel-rooftop
+```
+
+| Parâmetro | Para que serve | Exemplos |
+|---|---|---|
+| `utm_source` | de onde veio | `meta`, `google`, `instagram`, `email`, `whatsapp` |
+| `utm_medium` | tipo de tráfego | `cpc`, `social`, `organico`, `email`, `bio` |
+| `utm_campaign` | a campanha | `lancamento-agosto`, `ultimas-unidades` |
+| `utm_content` | qual criativo | `carrossel-rooftop`, `video-planta`, `estatico-fachada` |
+| `utm_term` | palavra-chave (busca paga) | `apartamento-granja-marileusa` |
+
+No Google Ads, deixe o autotagging ligado: o `gclid` sozinho já é reconhecido
+como `google / cpc`, sem precisar montar UTM na mão.
+
+---
+
 ## Pendências
 
 - [ ] Reescrever no nginx os cabeçalhos que estavam no `_headers` (cache dos assets e
