@@ -104,6 +104,10 @@
   });
 
   /* ---------- Formulário ---------- */
+  // POST direto no Visimob Leads. Não há backend: a LP é servida como
+  // estático puro, então o roteamento do lead acontece do lado do Visimob.
+  var WEBHOOK_URL = 'https://leads.visimob.com/api/v1/webhooks/4f9f759144254d2c8c873fc18e063180/';
+
   var form = $('#form'), msg = $('#msg'), submit = $('#submit');
 
   var invalid = function (el, cond) {
@@ -128,6 +132,23 @@
       return;
     }
 
+    // Honeypot: humano deixa vazio. A checagem era feita na Function; sem
+    // backend ela precisa acontecer aqui, antes de tocar no webhook.
+    // Mostra sucesso para o bot não descobrir que foi barrado.
+    if ($('#website').value.trim()) {
+      form.reset();
+      msg.className = 'form__msg ok';
+      msg.textContent = 'Recebemos seus dados. Um consultor entra em contato em breve.';
+      return;
+    }
+
+    var utm = (function () {
+      var p = new URLSearchParams(location.search), o = {};
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid']
+        .forEach(function (k) { o[k] = p.get(k) || ''; });
+      return o;
+    })();
+
     var data = {
       nome: nome.value.trim(),
       telefone: fone.value.trim(),
@@ -135,21 +156,21 @@
       tipologia: $('#tipo').value,
       entrada: $('#entrada').value,
       origem: 'LP Vangarden Living',
-      website: $('#website').value, // honeypot: humano deixa vazio
       pagina: location.href,
-      // UTMs repassadas ao CRM
-      utm: (function () {
-        var p = new URLSearchParams(location.search), o = {};
-        ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid', 'fbclid']
-          .forEach(function (k) { if (p.get(k)) o[k] = p.get(k); });
-        return o;
-      })()
+      current_url: location.href,
+      referrer: document.referrer || ''
     };
+
+    // Tracking vai achatado na raiz e aninhado em `utm`: o webhook lê de
+    // um jeito ou de outro dependendo do mapeamento, e mandar nos dois
+    // formatos evita depender disso.
+    Object.keys(utm).forEach(function (k) { data[k] = utm[k]; });
+    data.utm = utm;
 
     submit.disabled = true;
     submit.textContent = 'Enviando…';
 
-    fetch('/api/lead', {
+    fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -165,7 +186,7 @@
       })
       .catch(function () {
         // Sem rota de escape por WhatsApp: o cadastro é o único caminho.
-        // Se cair aqui, o lead se perde — o /api/lead precisa estar no ar.
+        // Se cair aqui, o lead se perde — o webhook precisa estar no ar.
         msg.className = 'form__msg bad';
         msg.textContent = 'Não conseguimos enviar agora. Tente novamente em instantes.';
       })

@@ -10,20 +10,18 @@ HTML, CSS e JavaScript puros. Sem build, sem framework, sem dependência de runt
 
 ```
 .
-├── site/                  # diretório publicado (build output do Cloudflare Pages)
-│   ├── index.html
-│   ├── robots.txt         # noindex enquanto estiver em *.pages.dev
-│   ├── _headers           # cache e cabeçalhos de segurança
-│   └── assets/
-│       ├── css/style.css
-│       ├── js/main.js
-│       ├── img/           # imagens já otimizadas para web
-│       └── fonts/
-└── functions/
-    └── api/lead.js        # POST /api/lead → cria o lead no Kommo
+└── site/                  # diretório publicado
+    ├── index.html
+    ├── robots.txt         # noindex enquanto não publicar no domínio final
+    ├── _headers           # formato Cloudflare; sem efeito no nginx (ver Deploy)
+    └── assets/
+        ├── css/style.css
+        ├── js/main.js
+        ├── img/           # imagens já otimizadas para web
+        └── fonts/
 ```
 
-`functions/` fica **fora** de `site/`, na raiz — é onde o Pages procura as Functions.
+Não há backend: o conteúdo de `site/` é tudo que vai para o servidor.
 
 ## Desenvolvimento local
 
@@ -34,37 +32,49 @@ python3 -m http.server 8080
 
 Abra <http://127.0.0.1:8080>.
 
-## Variáveis de ambiente
+## Formulário e leads
 
-Configure em **Cloudflare Pages → Settings → Environment variables**, para Production e Preview:
+O `POST` vai direto para o Visimob Leads, sem intermediário:
 
-| Variável | O que é | Onde achar no Kommo |
-|---|---|---|
-| `KOMMO_SUBDOMAIN` | subdomínio da conta, sem `.kommo.com` | está na própria URL: `SUBDOMINIO.kommo.com` |
-| `KOMMO_TOKEN` | token de longa duração — **marcar como Secret** | Configurações → Integrações → criar integração privada → aba Chaves |
-| `KOMMO_PIPELINE_ID` | id numérico do funil | abra o funil; o id aparece na URL |
-| `KOMMO_STATUS_ID` | id numérico da etapa de entrada | `GET /api/v4/leads/pipelines/{pipeline_id}` lista as etapas |
-| `KOMMO_TAG` | opcional; padrão `LP Vangarden Living` | — |
-
-Para rodar local, crie um `.dev.vars` na raiz com as mesmas chaves. Ele está no `.gitignore`
-e não deve ser versionado nunca.
-
-```bash
-npx wrangler pages dev site
+```
+https://leads.visimob.com/api/v1/webhooks/4f9f759144254d2c8c873fc18e063180/
 ```
 
-O token só existe no servidor: ele nunca é enviado ao navegador.
+O roteamento do lead acontece do lado do Visimob. **Este empreendimento não vai
+para o Kommo** — a lançadora parceira usa outra ferramenta, e o destino é a suíte
+antiga. Não há variáveis de ambiente a configurar.
+
+Campos enviados:
+
+| Campo | Origem |
+|---|---|
+| `nome`, `telefone`, `email` | preenchidos pelo usuário |
+| `tipologia` | planta de interesse |
+| `entrada` | faixa de valor de entrada |
+| `origem` | fixo: `LP Vangarden Living` |
+| `pagina`, `current_url`, `referrer` | contexto da visita |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_content`, `utm_term`, `gclid`, `fbclid` | querystring |
+
+O tracking vai **duas vezes**: achatado na raiz e aninhado em `utm`. É intencional —
+evita depender de como o mapeamento do webhook lê o payload.
+
+O honeypot (`#website`) é validado no cliente, antes do envio. Bot preenchido
+recebe a mensagem de sucesso e o lead é descartado sem tocar no webhook.
 
 ## Deploy
 
-Cloudflare Pages, com `site` como *build output directory* e nenhum comando de build.
+Servidor estático (nginx), servida em subpasta. Suba o **conteúdo** de `site/`:
 
 ```bash
-npx wrangler login
-npx wrangler pages deploy site --project-name lp-vangarden-living
+scp -r site/* usuario@servidor:/caminho/para/lancamentos/vangarden/
 ```
 
-Rode a partir da raiz do projeto, para que o `functions/` seja compilado junto.
+Todos os caminhos do HTML e do CSS são relativos, então a LP funciona em qualquer
+subpasta sem alteração de código.
+
+O `site/_headers` é formato Cloudflare Pages e **não tem efeito no nginx**. O cache
+dos assets, o `X-Content-Type-Options`, o `Referrer-Policy` e o `X-Frame-Options`
+que estavam ali precisam ser reescritos na config do nginx, se forem desejados.
 
 ---
 
@@ -97,10 +107,8 @@ skip link, e contraste verificado nas tags e nos textos sobre champagne.
 
 ## Pendências
 
-- [ ] Credenciais do Kommo nas variáveis de ambiente. O endpoint já existe e está testado,
-      mas **enquanto as variáveis não forem preenchidas ele responde 503 e o cadastro se perde** —
-      o formulário é hoje o único caminho de conversão da página.
-- [ ] Faixas reais de valor de entrada no formulário (as atuais são placeholder)
+- [ ] Reescrever no nginx os cabeçalhos que estavam no `_headers` (cache dos assets e
+      headers de segurança), que o formato Cloudflare não cobre
 - [ ] Licença webfont da Gilroy
 - [ ] Ícones da marca em SVG (hoje são caracteres Unicode provisórios)
 - [ ] Logos Vangarden e LBraga em SVG
