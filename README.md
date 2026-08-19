@@ -76,6 +76,34 @@ O `site/_headers` é formato Cloudflare Pages e **não tem efeito no nginx**. O 
 dos assets, o `X-Content-Type-Options`, o `Referrer-Policy` e o `X-Frame-Options`
 que estavam ali precisam ser reescritos na config do nginx, se forem desejados.
 
+### ⚠️ Toda LP nasce com o GTM instalado
+
+As LPs da LBraga usam **um único container do Google Tag Manager**:
+
+```
+GTM-FVT9V454
+```
+
+Não há GA4 nem Meta Pixel instalados direto na página — **tudo é disparado por
+dentro do GTM**. Não acrescente `gtag.js` nem `fbevents.js` no HTML: duplica
+medição e some com o controle centralizado.
+
+O snippet vai em **dois lugares**, e os dois são obrigatórios:
+
+1. No `<head>`, o mais alto possível — logo depois de `<head>`, antes das `<meta>`
+2. No `<body>`, o `<noscript>` com o iframe — primeira coisa depois de `<body>`
+
+Copie de qualquer LP irmã já publicada (`plaza`, `opera`) para não errar o ID.
+
+**Checklist ao criar ou publicar uma LP nova:** confirmar que
+`grep -c 'GTM-FVT9V454' site/index.html` devolve **2**. Se devolver 0 ou 1, o
+rastreamento está incompleto e a mídia paga fica sem atribuição — e esse erro
+não aparece na tela, a página funciona normalmente sem ele.
+
+O `main.js` já dispara `fbq('track','Lead')` e `gtag('event','generate_lead')` no
+envio do formulário. Esses disparos só têm efeito se as tags correspondentes
+existirem dentro do container — sem GTM na página, eles caem no vazio.
+
 ### ⚠️ Cache busting: subir o `?v=` ao alterar CSS ou JS
 
 O domínio está atrás da Cloudflare, que guarda `.css` e `.js` na borda por
@@ -223,7 +251,9 @@ como `google / cpc`, sem precisar montar UTM na mão.
 - [ ] Logos Vangarden e LBraga em SVG
 - [ ] Favicon e `og:image` definitivos
 - [ ] Reverter `robots.txt` e o `X-Robots-Tag` de `_headers` ao publicar no domínio final
-- [ ] Meta Pixel e GA4 (o disparo do evento `Lead` já está no `main.js`, faltam os scripts)
+- [ ] Configurar as tags de GA4 e Meta Pixel **dentro do container** GTM-FVT9V454.
+      O snippet do GTM já está na página e o `main.js` já dispara `Lead` e
+      `generate_lead` no envio — falta o container ter as tags que escutam esses eventos
 
 ---
 
