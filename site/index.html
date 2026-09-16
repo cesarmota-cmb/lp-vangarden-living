@@ -30,7 +30,7 @@
     rel="stylesheet">
   <!-- ?v= é cache busting: a Cloudflare guarda css/js na borda por 4h e o
        _headers não vale fora do Pages. Subir o número a cada alteração. -->
-  <link rel="stylesheet" href="assets/css/style.css?v=1">
+  <link rel="stylesheet" href="assets/css/style.css?v=2">
 </head>
 
 <body>
@@ -44,7 +44,7 @@
   <!-- ================= HEADER ================= -->
   <header class="hdr" id="hdr">
     <div class="hdr__in">
-      <a href="#topo" class="hdr__logo" aria-label="Vangarden Living — início">
+      <a href="#promo" class="hdr__logo" aria-label="Vangarden Living — início">
         <img src="assets/img/logo-vangarden-champagne.png" alt="Vangarden Living" width="90" height="105">
       </a>
 
@@ -63,6 +63,13 @@
   </header>
 
   <main id="conteudo">
+
+    <!-- ================= PROMO (temporária — Mês do Cliente, set/2026) =================
+         A arte já traz todo o texto da promoção. Para remover, apagar esta section
+         e o bloco "Promo" do style.css, e voltar o link do logo no header para #topo. -->
+    <section class="promo" id="promo" role="img"
+      aria-label="Mês do Cliente — Comprou, ganhou. Em setembro, ao comprar uma unidade do Vangarden Living, você escolhe entre um dos presentes: robô aspirador Roborock, aspirador vertical Dyson ou poltrona Charles Eames. Promoção válida para contratos assinados até 30/09/2026, apenas para unidades comercializadas a partir de R$ 1 milhão. Imagens ilustrativas.">
+    </section>
 
     <!-- ================= 1. HERO ================= -->
     <section class="hero" id="topo">

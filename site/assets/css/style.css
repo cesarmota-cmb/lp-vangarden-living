@@ -126,6 +126,16 @@ strong{font-weight:700;color:var(--vg-champagne)}
 .burger[aria-expanded="true"] span:nth-child(2){opacity:0}
 .burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
+/* ---------- Promo (temporária) ---------- */
+/* A caixa tem a mesma proporção da arte (1920×1080), então a imagem inteira cabe
+   em qualquer largura e escala proporcionalmente no mobile, sem corte.
+   O padding-top tira a arte de baixo do header fixo. */
+.promo{padding-top:var(--hdr-h)}
+.promo::before{
+  content:'';display:block;aspect-ratio:1920/1080;
+  background:url(../img/vangarden-hero.png) center/contain no-repeat;
+}
+
 /* ---------- Composição de duas colunas (assinatura do book) ---------- */
 .hero,.split{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 .hero{min-height:100svh;align-items:stretch}
@@ -458,6 +468,8 @@ strong{font-weight:700;color:var(--vg-champagne)}
      superior da imagem — assim ele acerta a emenda em qualquer ordem de empilhamento,
      em vez de calcular alturas e cair em cima do texto. */
   .seam{display:none}
+  /* O quadrado sobe metade acima da mídia da hero; sem esse respiro ele cobre o rodapé legal da arte */
+  .promo{padding-bottom:calc(var(--vg-square) / 2)}
   .hero__media,.split__media{overflow:visible}
   .hero__media::before,.split__media::before{
     content:'';position:absolute;z-index:5;
