@@ -133,7 +133,7 @@ strong{font-weight:700;color:var(--vg-champagne)}
 .promo{padding-top:var(--hdr-h)}
 .promo::before{
   content:'';display:block;aspect-ratio:1920/1080;
-  background:url(../img/vangarden-hero.png) center/contain no-repeat;
+  background:url(../img/vangarden-hero.png?v=2) center/contain no-repeat;
 }
 
 /* ---------- Composição de duas colunas (assinatura do book) ---------- */
